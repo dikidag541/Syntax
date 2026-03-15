@@ -103,11 +103,11 @@ export default function AntigravityObject({ activeProject, isFocused, progress }
 
         // Texture morph logic
         const targetMix = activeProject ? 1 : 0;
-        shaderRefs.current.projectMix = THREE.MathUtils.lerp(shaderRefs.current.projectMix, targetMix, 0.05);
+        shaderRefs.current.projectMix = THREE.MathUtils.lerp(shaderRefs.current.projectMix, targetMix, 0.1);
 
         // Desaturation / Opacity
         const targetOpacity = activeProject ? 1 : 0;
-        shaderRefs.current.projectOpacity = THREE.MathUtils.lerp(shaderRefs.current.projectOpacity, targetOpacity, 0.05);
+        shaderRefs.current.projectOpacity = THREE.MathUtils.lerp(shaderRefs.current.projectOpacity, targetOpacity, 0.1);
 
         // Blur Focus for DOF simulation (Team section is further down)
         const targetFocus = isFocused ? 1 : 0;

@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700", "900"] });
 
 export const metadata: Metadata = {
-  title: "Antigravity Geometry | Portfolio",
-  description: "A high-end ethereal digital art portfolio.",
+  title: "SyntaX | Digital Architects",
+  description: "Digital Architects of Ethereal Experiences.",
 };
 
 export default function RootLayout({

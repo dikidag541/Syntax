@@ -57,7 +57,7 @@ export default function Home() {
           trigger: heroRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: true,
+          scrub: 0.5,
         }
       });
 
@@ -139,13 +139,20 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SECTION 2: THE CATALOG (Sequential 100vh markers) */}
+        {/* SECTION 2: THE CATALOG (Sequential 80vh markers) */}
         <div id="catalog-section" className="relative">
+          {/* Subtle background text to fill dead space */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] z-0 overflow-hidden select-none">
+            <span className="text-[25vw] font-black tracking-tighter uppercase whitespace-nowrap rotate-90 md:rotate-0">
+              PROJECT_ARCHIVE
+            </span>
+          </div>
+
           {projects.map((project) => (
             <section
               key={project.id}
               id={`view-section-${project.id}`}
-              className="relative h-[120vh] flex items-center justify-center overflow-hidden pointer-events-none"
+              className="relative h-[80vh] flex items-center justify-center overflow-hidden pointer-events-none"
             >
               {/* Distance for background viewfinder transitions */}
             </section>
