@@ -1,73 +1,82 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 export default function CustomCursor() {
-    const [isHovered, setIsHovered] = useState(false);
-    const [cursorType, setCursorType] = useState<'circle' | 'shape'>('circle');
-
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
+    const [isHovering, setIsHovering] = useState(false);
 
-    const springConfig = { damping: 40, stiffness: 400, mass: 1.5 };
-    const springX = useSpring(mouseX, springConfig);
-    const springY = useSpring(mouseY, springConfig);
+    const springConfig = { damping: 25, stiffness: 200 };
+    const cursorX = useSpring(mouseX, springConfig);
+    const cursorY = useSpring(mouseY, springConfig);
 
     useEffect(() => {
-        const moveMouse = (e: MouseEvent) => {
+        const handleMouseMove = (e: MouseEvent) => {
             mouseX.set(e.clientX);
             mouseY.set(e.clientY);
         };
 
-        const handleHoverStart = () => {
-            setIsHovered(true);
-            setCursorType('shape');
+        const handleMouseOver = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (
+                target.tagName === 'A' ||
+                target.tagName === 'BUTTON' ||
+                target.closest('button') ||
+                target.classList.contains('cursor-pointer')
+            ) {
+                if (!isHovering) {
+                    setIsHovering(true);
+                }
+            } else {
+                setIsHovering(false);
+            }
         };
 
-        const handleHoverEnd = () => {
-            setIsHovered(false);
-            setCursorType('circle');
-        };
-
-        window.addEventListener('mousemove', moveMouse);
-
-        // Add listeners for interactive elements if needed, 
-        // or use global delegation. Pure circle for now.
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseover', handleMouseOver);
 
         return () => {
-            window.removeEventListener('mousemove', moveMouse);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseover', handleMouseOver);
         };
-    }, [mouseX, mouseY]);
+    }, [mouseX, mouseY, isHovering]);
 
     return (
-        <>
-            {/* Main Cursor */}
+        <div className="fixed inset-0 pointer-events-none z-[9999]">
+            {/* Main Cursor Ring */}
             <motion.div
-                className="fixed top-0 left-0 w-6 h-6 border border-foreground rounded-full pointer-events-none z-[10000] flex items-center justify-center origin-center"
                 style={{
-                    x: springX,
-                    y: springY,
+                    x: cursorX,
+                    y: cursorY,
                     translateX: '-50%',
                     translateY: '-50%',
                 }}
+                className="w-10 h-10 border border-[#22d3ee]/40 rounded-full flex items-center justify-center mix-blend-difference"
                 animate={{
-                    scale: isHovered ? 1.5 : 1,
-                    rotate: isHovered ? 45 : 0,
-                    backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.8)' : 'transparent',
+                    scale: isHovering ? 1.5 : 1,
+                    borderColor: isHovering ? 'rgba(34, 211, 238, 0.8)' : 'rgba(34, 211, 238, 0.4)',
                 }}
-            />
+            >
+                <motion.div
+                    animate={{
+                        scale: isHovering ? 0.3 : 1,
+                    }}
+                    className="w-1 h-1 bg-[#22d3ee] rounded-full shadow-[0_0_10px_#22d3ee]"
+                />
+            </motion.div>
 
-            {/* Trailing effect dot */}
+            {/* Particle Trail (Simplified CSS trails) */}
             <motion.div
-                className="fixed top-0 left-0 w-1 h-1 bg-foreground rounded-full pointer-events-none z-[9999]"
                 style={{
-                    x: mouseX,
-                    y: mouseY,
+                    x: useSpring(mouseX, { damping: 40, stiffness: 300 }),
+                    y: useSpring(mouseY, { damping: 40, stiffness: 300 }),
                     translateX: '-50%',
                     translateY: '-50%',
                 }}
+                className="w-2 h-2 border border-[#22d3ee]/20 rounded-full mix-blend-difference"
             />
-        </>
+        </div>
     );
 }

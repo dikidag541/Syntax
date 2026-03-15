@@ -1,36 +1,41 @@
 'use client';
 
-import { Projector as LucideProjector } from 'lucide-react';
-import Scene from '@/components/Scene';
-import SmoothScroll from '@/components/SmoothScroll';
-import CustomCursor from '@/components/CustomCursor';
+import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import Hero from '@/components/Hero';
 import HUD from '@/components/HUD';
-import ProjectHUD from '@/components/ProjectHUD';
-import ProjectSidebar from '@/components/ProjectSidebar';
-import MagneticButton from '@/components/MagneticButton';
-
+import AntigravityObject from '@/components/AntigravityObject';
+import ProjectItem from '@/components/ProjectItem';
 import TeamSection from '@/components/TeamSection';
-import ZeroGravityWrapper from '@/components/ZeroGravityWrapper';
+import ProjectSidebar from '@/components/ProjectSidebar';
+import ProjectHUD from '@/components/ProjectHUD';
 import ContactTerminal from '@/components/ContactTerminal';
+import MagneticButton from '@/components/MagneticButton';
 import TransitionOverlay from '@/components/TransitionOverlay';
+import CustomCursor from '@/components/CustomCursor';
+import ProjectPreview from '@/components/ProjectPreview';
+import SmoothScroll from '@/components/SmoothScroll';
+import Scene from '@/components/Scene';
+import ZeroGravityWrapper from '@/components/ZeroGravityWrapper';
 import useQWERTY from '@/hooks/useQWERTY';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
-import { useLayoutEffect, useRef, useState, useEffect } from 'react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { id: 'ukm', name: 'UKM Etalase' },
-  { id: 'sugoi', name: 'Sugoi8 Management' },
-  { id: 'af', name: 'AF Studio' },
-  { id: 'bk', name: 'Balik Kucing Studio' },
-  { id: 'strategix', name: 'Strategix Grapadi' },
-  { id: 'hmrp', name: 'HMRP Munej' },
+  { id: 'ukm', name: 'UKM Indonesia' },
+  { id: 'sugoi', name: 'Sugoi Japan' },
+  { id: 'af', name: 'Ahmad Faiz' },
+  { id: 'bk', name: 'Bali Kucing' },
+  { id: 'strategix', name: 'Grapadi Strategix' },
+  { id: 'hmrp', name: 'HMRP' },
   { id: 'mahapena', name: 'Mahapena' },
 ];
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [isTeamHovered, setIsTeamHovered] = useState(false);
   const [isZeroGravity, setIsZeroGravity] = useState(false);

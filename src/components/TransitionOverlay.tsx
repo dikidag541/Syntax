@@ -1,30 +1,44 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
 
 export default function TransitionOverlay({ active }: { active: boolean }) {
-    const gridSize = 10; // 10x10 grid
-    const cells = Array.from({ length: gridSize * gridSize });
-
     return (
-        <div className={`fixed inset-0 pointer-events-none z-[100] grid grid-cols-10 grid-rows-10`}>
-            <AnimatePresence>
-                {active && cells.map((_, i) => (
+        <AnimatePresence>
+            {active && (
+                <motion.div
+                    initial={{ scaleY: 0 }}
+                    animate={{ scaleY: 1 }}
+                    exit={{ scaleY: 0, transition: { delay: 0.5 } }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="fixed inset-0 z-[1000] bg-white origin-top flex items-center justify-center overflow-hidden"
+                >
+                    {/* Cyan Light Leak Flash */}
                     <motion.div
-                        key={i}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0 }}
-                        transition={{
-                            duration: 0.4,
-                            delay: (i % gridSize + Math.floor(i / gridSize)) * 0.05,
-                            ease: 'easeInOut'
-                        }}
-                        className="bg-white"
+                        initial={{ opacity: 1, x: '-100%' }}
+                        animate={{ x: '100%' }}
+                        transition={{ duration: 1, ease: 'linear' }}
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-[#22d3ee]/40 to-transparent skew-x-12 blur-3xl"
                     />
-                ))}
-            </AnimatePresence>
-        </div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="flex flex-col items-center gap-4"
+                    >
+                        <div className="text-[10px] font-mono tracking-[1em] opacity-40 uppercase">Initialising_Stream</div>
+                        <div className="w-48 h-[1px] bg-black/10 overflow-hidden relative">
+                            <motion.div
+                                initial={{ x: '-100%' }}
+                                animate={{ x: '100%' }}
+                                transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+                                className="absolute top-0 left-0 h-full w-1/2 bg-black"
+                            />
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 }

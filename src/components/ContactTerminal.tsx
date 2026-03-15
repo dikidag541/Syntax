@@ -12,8 +12,22 @@ export default function ContactTerminal() {
         e.preventDefault();
         if (!input.trim()) return;
 
-        setLogs((prev) => [...prev, `> ${input}`, 'MESSAGE_RECEIVED. SHIFTING_TO_DIMENSION_X...']);
+        const msg = input.trim();
         setInput('');
+        setLogs((prev) => [...prev, `> ${msg}`]);
+
+        // Simulate sending process
+        setTimeout(() => {
+            setLogs((prev) => [...prev, 'ESTABLISHING_SECURE_ULTRALINK...']);
+        }, 500);
+
+        setTimeout(() => {
+            setLogs((prev) => [...prev, 'UPLOADING_ENCRYPTED_DATA_PACKET...']);
+        }, 1200);
+
+        setTimeout(() => {
+            setLogs((prev) => [...prev, 'MISSION_ACCOMPLISHED. TRANSMISSION_SENT_TO_DIMENSION_X.']);
+        }, 2200);
     };
 
     return (
