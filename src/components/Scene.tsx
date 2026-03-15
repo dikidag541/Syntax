@@ -11,7 +11,10 @@ export default function Scene({ activeProject, isFocused, progress }: { activePr
             <Canvas
                 shadows
                 camera={{ position: [0, 0, 5], fov: 35 }}
-                gl={{ antialias: true, alpha: true }}
+                gl={{
+                    antialias: true,
+                    alpha: true
+                }}
             >
                 <Suspense fallback={null}>
                     <Environment preset="city" />

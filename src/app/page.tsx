@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import Hero from '@/components/Hero';
 import HUD from '@/components/HUD';
 import AntigravityObject from '@/components/AntigravityObject';
-import ProjectItem from '@/components/ProjectItem';
 import TeamSection from '@/components/TeamSection';
 import ProjectSidebar from '@/components/ProjectSidebar';
 import ProjectHUD from '@/components/ProjectHUD';
@@ -56,6 +54,8 @@ export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (isLoading) return;
+
     if (typeof window !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
     }
@@ -94,7 +94,7 @@ export default function Home() {
       });
     }, containerRef);
     return () => ctx.revert();
-  }, []);
+  }, [isLoading]);
 
   return (
     <main ref={containerRef} className="relative w-full overflow-x-hidden selection:bg-black selection:text-white">

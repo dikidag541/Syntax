@@ -1,10 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'Inter';
-  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-}
-
 :root {
   --background: #f8f8f8;
   --foreground: #171717;
@@ -27,8 +22,6 @@ body {
   overflow-y: auto;
   min-height: 100%;
   -moz-osx-font-smoothing: grayscale;
-  selection-background-color: var(--cyan-accent);
-  selection-color: black;
 }
 
 ::selection {
