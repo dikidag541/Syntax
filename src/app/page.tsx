@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import HUD from '@/components/HUD';
 import AntigravityObject from '@/components/AntigravityObject';
 import TeamSection from '@/components/TeamSection';
@@ -98,7 +98,11 @@ export default function Home() {
 
   return (
     <main ref={containerRef} className="relative w-full overflow-x-hidden selection:bg-black selection:text-white">
-      <IntroLoader onComplete={loaderFinished} />
+      <AnimatePresence>
+        {isLoading && (
+          <IntroLoader onComplete={loaderFinished} />
+        )}
+      </AnimatePresence>
 
       {!isLoading && (
         <motion.div
