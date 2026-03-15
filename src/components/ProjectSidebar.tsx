@@ -29,7 +29,7 @@ export default function ProjectSidebar({ activeId, onHover, isVisible }: Props) 
         <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : 50 }}
-            className="fixed right-12 top-1/2 -translate-y-1/2 z-[60] flex flex-col gap-12 items-end pointer-events-auto"
+            className="fixed right-6 md:right-12 bottom-8 md:top-1/2 md:-translate-y-1/2 z-[60] flex flex-col gap-8 md:gap-12 items-end pointer-events-auto"
         >
             <div className="text-[10px] tracking-[0.5em] opacity-30 mb-8 font-['JetBrains_Mono'] leading-relaxed">PROJECT_ARCHIVE_v1.0</div>
 

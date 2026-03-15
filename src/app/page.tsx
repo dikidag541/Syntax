@@ -124,10 +124,10 @@ export default function Home() {
         {/* SECTION 1: THE HERO (QWERTY ONLY) */}
         <section
           ref={heroRef}
-          className="relative h-screen flex flex-col items-center justify-center p-8 text-center"
+          className="relative h-screen flex flex-col items-center justify-center p-6 md:p-8 text-center"
         >
-          <div className="z-10">
-            <h1 className="text-[15vw] leading-[0.8] mb-8 animate-reveal tracking-tighter font-black">
+          <div className="z-10 w-full max-w-full overflow-hidden">
+            <h1 className="text-[18vw] md:text-[15vw] leading-[0.8] mb-8 animate-reveal tracking-tighter font-black break-words">
               SyntaX
             </h1>
             <div className="flex flex-col items-center gap-6 animate-reveal opacity-0" style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}>

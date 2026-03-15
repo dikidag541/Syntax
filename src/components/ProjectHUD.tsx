@@ -16,7 +16,7 @@ export default function ProjectHUD({ activeId }: { activeId: string | null }) {
     const info = activeId ? projectInfo[activeId] : null;
 
     return (
-        <div className="fixed inset-0 pointer-events-none z-50 font-['JetBrains_Mono',monospace] text-[10px] tracking-[0.2em] font-bold p-12">
+        <div className="fixed inset-0 pointer-events-none z-50 font-['JetBrains_Mono',monospace] text-[10px] tracking-[0.2em] font-bold p-6 md:p-12">
             <AnimatePresence mode="wait">
                 {info && (
                     <motion.div

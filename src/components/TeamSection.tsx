@@ -19,7 +19,7 @@ export default function TeamSection({ onHover, isVisible }: Props) {
         <motion.section
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : -50 }}
-            className="fixed left-12 top-1/2 -translate-y-1/2 z-[60] flex flex-col gap-10 items-start pointer-events-auto"
+            className="fixed left-6 md:left-12 bottom-8 md:top-1/2 md:-translate-y-1/2 z-[60] flex flex-col gap-6 md:gap-10 items-start pointer-events-auto"
             onMouseEnter={() => onHover(true)}
             onMouseLeave={() => onHover(false)}
         >
