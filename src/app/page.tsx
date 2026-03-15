@@ -1,65 +1,179 @@
-import Image from "next/image";
+'use client';
+
+import { Projector as LucideProjector } from 'lucide-react';
+import Scene from '@/components/Scene';
+import SmoothScroll from '@/components/SmoothScroll';
+import CustomCursor from '@/components/CustomCursor';
+import HUD from '@/components/HUD';
+import ProjectHUD from '@/components/ProjectHUD';
+import ProjectSidebar from '@/components/ProjectSidebar';
+import MagneticButton from '@/components/MagneticButton';
+
+import TeamSection from '@/components/TeamSection';
+import ZeroGravityWrapper from '@/components/ZeroGravityWrapper';
+import ContactTerminal from '@/components/ContactTerminal';
+import TransitionOverlay from '@/components/TransitionOverlay';
+import useQWERTY from '@/hooks/useQWERTY';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
+import { useLayoutEffect, useRef, useState, useEffect } from 'react';
+
+const projects = [
+  { id: 'ukm', name: 'UKM Etalase' },
+  { id: 'sugoi', name: 'Sugoi8 Management' },
+  { id: 'af', name: 'AF Studio' },
+  { id: 'bk', name: 'Balik Kucing Studio' },
+  { id: 'strategix', name: 'Strategix Grapadi' },
+  { id: 'hmrp', name: 'HMRP Munej' },
+  { id: 'mahapena', name: 'Mahapena' },
+];
 
 export default function Home() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
+  const [isTeamHovered, setIsTeamHovered] = useState(false);
+  const [isZeroGravity, setIsZeroGravity] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showNav, setShowNav] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useQWERTY(() => {
+    setIsZeroGravity(true);
+  });
+
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+    const ctx = gsap.context(() => {
+      // 1. Hero Fade Out
+      gsap.to(heroRef.current, {
+        opacity: 0,
+        y: -100,
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        }
+      });
+
+      // 2. Nav Reveal & Progress Tracking
+      ScrollTrigger.create({
+        trigger: '#catalog-section',
+        start: 'top 80%',
+        end: 'bottom 20%',
+        onUpdate: (self) => setScrollProgress(self.progress),
+        onEnter: () => setShowNav(true),
+        onLeaveBack: () => setShowNav(false),
+      });
+
+      // 3. Project Visual Synchronizer
+      projects.forEach((project) => {
+        ScrollTrigger.create({
+          trigger: `#view-section-${project.id}`,
+          start: 'top center',
+          end: 'bottom center',
+          onEnter: () => setActiveProjectId(project.id),
+          onEnterBack: () => setActiveProjectId(project.id),
+        });
+      });
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main ref={containerRef} className="relative w-full overflow-x-hidden selection:bg-black selection:text-white">
+      <SmoothScroll />
+      <CustomCursor />
+
+      {/* LAYER 0: BASE BACKGROUND COLOR */}
+      <div className="fixed inset-0 bg-[#f8f8f8] z-[-2]" />
+
+      {/* LAYER 1: BACKGROUND 3D - FIXED */}
+      <div className="fixed inset-0 z-[-1] pointer-events-none">
+        <Scene
+          activeProject={activeProjectId}
+          isFocused={isTeamHovered}
+          progress={scrollProgress}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+      </div>
+
+      {/* OVERLAY INTERACTION LAYER - Revealing sequentially */}
+      <ProjectHUD activeId={activeProjectId} />
+
+      <TeamSection
+        isVisible={showNav}
+        onHover={setIsTeamHovered}
+      />
+
+      <ProjectSidebar
+        isVisible={showNav}
+        activeId={activeProjectId}
+        onHover={setActiveProjectId}
+      />
+
+      <MagneticButton visible={!!activeProjectId && showNav} />
+
+      <ZeroGravityWrapper active={isZeroGravity}>
+        <HUD />
+
+        {/* SECTION 1: THE HERO (QWERTY ONLY) */}
+        <section
+          ref={heroRef}
+          className="relative h-screen flex flex-col items-center justify-center p-8 text-center"
+        >
+          <div className="z-10">
+            <h1 className="text-[15vw] leading-[0.8] mb-8 animate-reveal tracking-tighter font-black">
+              QWERTY
+            </h1>
+            <div className="flex flex-col items-center gap-6 animate-reveal opacity-0" style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}>
+              <p className="text-xl tracking-[0.4em] font-light opacity-60">
+                DIGITAL ARCHITECTS OF ETHEREAL EXPERIENCES
+              </p>
+              <div className="w-24 h-[1px] bg-foreground/20"></div>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 2: THE CATALOG (Sequential 100vh markers) */}
+        <div id="catalog-section" className="relative">
+          {projects.map((project) => (
+            <section
+              key={project.id}
+              id={`view-section-${project.id}`}
+              className="relative h-[120vh] flex items-center justify-center overflow-hidden pointer-events-none"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              {/* Distance for background viewfinder transitions */}
+            </section>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {/* SECTION 3: FINALE */}
+        <section className="relative h-screen flex flex-col items-center justify-center text-center px-8 border-t border-black/5 bg-transparent">
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1.5 }}
+            className="text-[6vw] font-black tracking-tighter leading-none mb-12 opacity-80 uppercase"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            LET'S BUILD THE<br />
+            <span className="text-transparent" style={{ WebkitTextStroke: '1px rgba(0,0,0,0.3)' }}>NEXT DIMENSION</span>
+          </motion.h2>
+        </section>
+
+        {/* SECTION 4: CONTACT TERMINAL */}
+        <section className="relative min-h-screen flex items-center justify-center bg-black/[0.02]">
+          <div className="w-full max-w-5xl px-8 py-24">
+            <ContactTerminal />
+          </div>
+        </section>
+      </ZeroGravityWrapper>
+
+      <TransitionOverlay active={isTransitioning} />
+    </main>
   );
 }
