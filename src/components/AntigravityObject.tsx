@@ -264,15 +264,13 @@ export default function AntigravityObject({ activeProject, isFocused, progress }
                             uniform sampler2D uPrevTex;
                             uniform float uProjectMix;
                             uniform float uProjectOpacity;
-                            varying vec3 vNormal;
-                            varying vec3 vViewPosition;
                             ${shader.fragmentShader}
                         `.replace(
                             '#include <dithering_fragment>',
                             `#include <dithering_fragment>
-                            vec3 normal = normalize(vNormal);
-                            vec3 viewDir = normalize(vViewPosition);
-                            float fresnel = pow(1.0 - clamp(dot(normal, viewDir), 0.0, 1.0), 3.0);
+                            vec3 surfaceNormal = normalize(vNormal);
+                            vec3 surfaceViewDir = normalize(vViewPosition);
+                            float fresnel = pow(1.0 - clamp(dot(surfaceNormal, surfaceViewDir), 0.0, 1.0), 3.0);
                             
                             // Lens Distortion logic for project preview
                             vec2 uv = gl_FragCoord.xy / vec2(1024.0); // Use power of 2 just in case
