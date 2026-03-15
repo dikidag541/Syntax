@@ -5,9 +5,15 @@ import gsap from 'gsap';
 
 export default function PriceCounter({ value }: { value: number }) {
     const [displayValue, setDisplayValue] = useState(value);
+    const [mounted, setMounted] = useState(false);
     const counterRef = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
         const obj = { val: displayValue };
         gsap.to(obj, {
             val: value,
@@ -17,11 +23,11 @@ export default function PriceCounter({ value }: { value: number }) {
                 setDisplayValue(Math.floor(obj.val));
             }
         });
-    }, [value]);
+    }, [value, mounted]);
 
     return (
         <span ref={counterRef} className="font-mono text-xl tracking-tighter">
-            ${displayValue.toLocaleString()}
+            ${mounted ? displayValue.toLocaleString() : displayValue}
         </span>
     );
 }

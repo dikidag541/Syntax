@@ -44,6 +44,11 @@ interface Props {
 }
 
 export default function PricelistLayout({ selectedTier, onSelectTier, selectedAddons, onToggleAddon }: Props) {
+    const [mounted, setMounted] = (require('react')).useState(false);
+    (require('react')).useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const currentPrice = (tiers.find(t => t.id === selectedTier)?.price || 0) +
         addons.filter(a => selectedAddons.includes(a.id)).reduce((acc, curr) => acc + curr.price, 0);
 
@@ -104,7 +109,7 @@ export default function PricelistLayout({ selectedTier, onSelectTier, selectedAd
 
                             <div className="mt-12 flex justify-between items-end">
                                 <span className={`text-3xl font-black tracking-tighter transition-colors ${selectedTier === tier.id ? 'text-black' : 'text-black/60'}`}>
-                                    ${tier.price.toLocaleString()}
+                                    ${mounted ? tier.price.toLocaleString() : tier.price}
                                 </span>
                                 <div className={`w-2 h-2 rounded-full transition-all duration-500 ${selectedTier === tier.id ? 'bg-[#22d3ee] scale-150' : 'bg-black/10'}`}></div>
                             </div>
