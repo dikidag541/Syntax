@@ -41,7 +41,7 @@ export default function ContactTerminal() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex gap-2 items-center border-t border-white/10 pt-4">
-                    <span className="text-blue-400">visitor@qwerty:~$</span>
+                    <span className="text-blue-400">visitor@syntax:~$</span>
                     <input
                         ref={inputRef}
                         type="text"
@@ -55,7 +55,7 @@ export default function ContactTerminal() {
             </div>
 
             <div className="mt-24 flex justify-between items-center text-[10px] tracking-[0.2em] font-bold opacity-20 uppercase">
-                <span>© 2026 QWERTY IDENTITY</span>
+                <span>© 2026 SYNTAX IDENTITY</span>
                 <span>DESIGNED BY AD ARCHITECTS</span>
                 <span>BUILT_WITH_ANTIGRAVITY</span>
             </div>

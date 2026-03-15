@@ -128,7 +128,7 @@ export default function Home() {
         >
           <div className="z-10">
             <h1 className="text-[15vw] leading-[0.8] mb-8 animate-reveal tracking-tighter font-black">
-              QWERTY
+              SyntaX
             </h1>
             <div className="flex flex-col items-center gap-6 animate-reveal opacity-0" style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}>
               <p className="text-xl tracking-[0.4em] font-light opacity-60">

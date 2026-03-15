@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 export default function useQWERTY(onTrigger: () => void) {
     const [input, setInput] = useState('');
-    const target = 'qwerty';
+    const target = 'syntax';
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {

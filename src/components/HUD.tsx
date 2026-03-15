@@ -25,12 +25,12 @@ export default function HUD() {
                         <div className="w-1.5 h-1.5 rounded-full bg-foreground/20 animate-pulse"></div>
                         <span>SYST_ACTIVE: OK</span>
                     </div>
-                    <span>QWERTY_DIGITAL_ARCHITECTS</span>
-                    <span>SRL_N: QW-2026-X</span>
+                    <span>SYNTAX_DIGITAL_ARCHITECTS</span>
+                    <span>SRL_N: SX-2026-X</span>
                 </div>
                 <div className="flex flex-col items-end gap-1">
                     <span>UTC: {time}</span>
-                    <span>IDENTITY: QWERTY_PORTFOLIO</span>
+                    <span>IDENTITY: SYNTAX_PORTFOLIO</span>
                 </div>
             </div>
 

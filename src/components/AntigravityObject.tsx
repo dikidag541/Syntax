@@ -283,14 +283,14 @@ export default function AntigravityObject({ activeProject, isFocused, progress }
                             float gray = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
                             tex.rgb = mix(tex.rgb, vec3(gray), 0.8); // 80% desaturated
                             
-                            vec3 color1 = vec3(0.8, 0.5, 1.0);
+                            vec3 color1 = vec3(0.13, 0.83, 0.93); // Cyan #22d3ee
                             vec3 color2 = vec3(0.5, 1.0, 0.8);
                             vec3 color3 = vec3(1.0, 0.8, 0.5);
                             vec3 irid = mix(color1, color2, sin(fresnel * 10.0 + uTime + uVelocity * 5.0) * 0.5 + 0.5);
                             irid = mix(irid, color3, cos(fresnel * 7.0 - uTime * 0.5) * 0.5 + 0.5);
                             
-                            gl_FragColor.rgb += irid * fresnel * 0.1 * (1.0 + uVelocity * 2.0);
-                            gl_FragColor.rgb = mix(gl_FragColor.rgb, tex.rgb, uProjectOpacity * 0.7 * (1.0 - fresnel));
+                            gl_FragColor.rgb += irid * fresnel * 0.15 * (1.0 + uVelocity * 2.0);
+                            gl_FragColor.rgb = mix(gl_FragColor.rgb, tex.rgb, uProjectOpacity * 0.7 * (1 - fresnel));
                             `
                         );
 
