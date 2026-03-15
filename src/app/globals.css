@@ -26,8 +26,14 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   min-height: 100%;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  selection-background-color: var(--cyan-accent);
+  selection-color: black;
+}
+
+::selection {
+  background: #22d3ee;
+  color: black;
 }
 
 body::after {

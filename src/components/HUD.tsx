@@ -22,7 +22,7 @@ export default function HUD() {
             <div className="flex justify-between items-start">
                 <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-foreground/20 animate-pulse"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#22d3ee] shadow-[0_0_8px_#22d3ee] animate-pulse"></div>
                         <span>SYST_ACTIVE: OK</span>
                     </div>
                     <span>SYNTAX_DIGITAL_ARCHITECTS</span>
@@ -40,7 +40,7 @@ export default function HUD() {
             <div className="flex justify-between items-end">
                 <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2">
-                        <div className="w-6 h-[1px] bg-foreground/20"></div>
+                        <div className="w-6 h-[1px] bg-[#22d3ee]/40"></div>
                         <span>STATUS: FLOATING</span>
                     </div>
                     <span>FREQ: 60.00HZ</span>
@@ -51,7 +51,7 @@ export default function HUD() {
                         <span>GPU: RTX_ON</span>
                     </div>
                     <div className="w-24 h-[1px] bg-foreground/20 relative">
-                        <div className="absolute top-0 left-0 h-full bg-foreground/40 animate-[loading_2s_infinite_linear]"></div>
+                        <div className="absolute top-0 left-0 h-full bg-[#22d3ee] shadow-[0_0_5px_#22d3ee] animate-[loading_2s_infinite_linear]"></div>
                     </div>
                 </div>
             </div>

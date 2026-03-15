@@ -47,13 +47,13 @@ export default function ProjectSidebar({ activeId, onHover, isVisible }: Props) 
                     </span>
 
                     <span className={`text-[11px] tracking-[0.3em] uppercase font-['JetBrains_Mono'] transition-all duration-500 leading-none
-            ${activeId === project.id ? 'opacity-100 -translate-x-2' : 'opacity-30 group-hover:opacity-60'}`}>
+            ${activeId === project.id ? 'text-[#22d3ee] opacity-100 -translate-x-2' : 'opacity-30 group-hover:opacity-60 group-hover:text-[#22d3ee]'}`}>
                         {project.name}
                     </span>
 
                     <div
                         className={`w-1.5 h-1.5 rounded-full border border-white/40 transition-all duration-500 
-            ${activeId === project.id ? 'bg-white scale-150' : 'bg-transparent'}`}
+            ${activeId === project.id ? 'bg-[#22d3ee] border-[#22d3ee] shadow-[0_0_8px_#22d3ee] scale-150' : 'bg-transparent'}`}
                     />
                 </div>
             ))}

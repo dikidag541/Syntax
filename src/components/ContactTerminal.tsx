@@ -41,7 +41,7 @@ export default function ContactTerminal() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex gap-2 items-center border-t border-white/10 pt-4">
-                    <span className="text-blue-400">visitor@syntax:~$</span>
+                    <span className="text-[#22d3ee]">visitor@syntax:~$</span>
                     <input
                         ref={inputRef}
                         type="text"
