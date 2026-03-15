@@ -88,10 +88,10 @@ function GeometricEngine({ tier, addonCount }: SceneProps) {
                             samples={6}
                             resolution={256}
                             thickness={1}
-                            roughness={0.2}
-                            ior={1.2}
-                            chromaticAberration={0.1}
-                            anisotropy={0.1}
+                            roughness={0.1}
+                            ior={1.4}
+                            chromaticAberration={0.8}
+                            anisotropy={0.5}
                             color="#ffffff"
                         />
                     )}
@@ -100,11 +100,11 @@ function GeometricEngine({ tier, addonCount }: SceneProps) {
                             samples={10}
                             resolution={512}
                             thickness={1.5}
-                            roughness={0.1}
-                            ior={1.5}
-                            chromaticAberration={0.5}
-                            distortion={0.5}
-                            temporalDistortion={0.5}
+                            roughness={0.05}
+                            ior={1.6}
+                            chromaticAberration={2.0}
+                            distortion={2.0}
+                            temporalDistortion={1.0}
                             color="#ffffff"
                         />
                     )}
@@ -121,8 +121,8 @@ function GeometricEngine({ tier, addonCount }: SceneProps) {
 
 function BlueprintGrid() {
     return (
-        <gridHelper args={[20, 20, 0x22d3ee, 0x22d3ee]} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, -5]}>
-            <meshBasicMaterial transparent opacity={0.05} />
+        <gridHelper args={[30, 30, 0x22d3ee, 0x22d3ee]} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, -5]}>
+            <meshBasicMaterial transparent opacity={0.3} />
         </gridHelper>
     );
 }
@@ -132,14 +132,14 @@ export default function PricelistScene({ tier = 'core', addonCount = 0 }: SceneP
         <div className="absolute inset-0 z-0">
             <Canvas dpr={[1, 2]}>
                 <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={35} />
-                <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} intensity={1} />
-                <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
+                <ambientLight intensity={0.7} />
+                <pointLight position={[10, 10, 10]} intensity={1.5} />
+                <spotLight position={[-10, 10, 10]} angle={0.2} penumbra={1} intensity={2} />
 
                 <BlueprintGrid />
                 <GeometricEngine tier={tier} addonCount={addonCount} />
 
-                <Environment preset="city" />
+                <Environment preset="studio" />
             </Canvas>
         </div>
     );

@@ -56,8 +56,8 @@ export default function PricelistLayout({ selectedTier, onSelectTier, selectedAd
                     <h1 className="text-4xl font-black tracking-tighter uppercase">Pricelist</h1>
                 </div>
                 <div className="text-right flex flex-col items-end gap-1">
-                    <span className="text-[10px] opacity-30 font-mono tracking-widest">TOTAL_ESTIMATE</span>
-                    <div className="text-2xl font-black text-[#22d3ee]">
+                    <span className="text-[10px] opacity-30 font-mono tracking-widest text-black">TOTAL_ESTIMATE</span>
+                    <div className="text-3xl font-black text-[#00f0ff] drop-shadow-[0_0_15px_rgba(0,240,255,0.4)]">
                         <PriceCounter value={currentPrice} />
                     </div>
                 </div>
@@ -71,9 +71,9 @@ export default function PricelistLayout({ selectedTier, onSelectTier, selectedAd
                         <motion.div
                             key={tier.id}
                             onClick={() => onSelectTier(tier.id)}
-                            whileHover={{ y: -5 }}
-                            className={`relative flex flex-col p-8 border border-black/5 bg-white/5 backdrop-blur-xl transition-all duration-500 cursor-pointer overflow-hidden group
-                                ${selectedTier === tier.id ? 'border-[#22d3ee]/50 bg-white/10 ring-1 ring-[#22d3ee]/20' : 'hover:border-black/20'}
+                            whileHover={{ y: -8, scale: 1.02 }}
+                            className={`relative flex flex-col p-8 border border-black/10 bg-white/5 backdrop-blur-[12px] transition-all duration-500 cursor-pointer overflow-hidden group
+                                ${selectedTier === tier.id ? 'border-[#22d3ee] bg-white/10 ring-1 ring-[#22d3ee]/30' : 'hover:border-black/30'}
                             `}
                         >
                             {/* Decorative Corner */}
@@ -86,22 +86,26 @@ export default function PricelistLayout({ selectedTier, onSelectTier, selectedAd
                                 <span className="text-[10px] font-mono opacity-40 bg-[#22d3ee]/10 px-2 py-0.5 rounded text-[#22d3ee]">QTY-01</span>
                             </div>
 
-                            <h3 className={`text-xl font-black tracking-tighter mb-2 transition-colors duration-500
-                                ${selectedTier === tier.id ? 'text-[#22d3ee]' : 'opacity-80'}
+                            <h3 className={`text-2xl font-black tracking-tighter mb-2 transition-colors duration-500
+                                ${selectedTier === tier.id ? 'text-[#22d3ee]' : 'text-black/80'}
                             `}>{tier.name}</h3>
-                            <p className="text-[10px] opacity-40 mb-8 font-mono tracking-widest leading-relaxed">{tier.description}</p>
+                            <p className={`text-[10px] mb-8 font-mono tracking-widest leading-relaxed transition-opacity
+                                ${selectedTier === tier.id ? 'opacity-100 text-black' : 'opacity-40'}
+                            `}>{tier.description}</p>
 
                             <div className="flex-1 flex flex-col gap-3">
                                 {tier.features.map(f => (
                                     <div key={f} className="flex items-center gap-3">
                                         <div className={`w-1 h-1 rounded-full ${selectedTier === tier.id ? 'bg-[#22d3ee]' : 'bg-black/20'}`}></div>
-                                        <span className={`text-[10px] font-mono tracking-widest transition-opacity duration-500 ${selectedTier === tier.id ? 'opacity-80' : 'opacity-30'}`}>{f}</span>
+                                        <span className={`text-[10px] font-mono tracking-widest transition-opacity duration-500 ${selectedTier === tier.id ? 'opacity-100 font-bold' : 'opacity-30'}`}>{f}</span>
                                     </div>
                                 ))}
                             </div>
 
                             <div className="mt-12 flex justify-between items-end">
-                                <span className="text-2xl font-black tracking-tighter">${tier.price.toLocaleString()}</span>
+                                <span className={`text-3xl font-black tracking-tighter transition-colors ${selectedTier === tier.id ? 'text-black' : 'text-black/60'}`}>
+                                    ${tier.price.toLocaleString()}
+                                </span>
                                 <div className={`w-2 h-2 rounded-full transition-all duration-500 ${selectedTier === tier.id ? 'bg-[#22d3ee] scale-150' : 'bg-black/10'}`}></div>
                             </div>
 

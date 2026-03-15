@@ -49,7 +49,12 @@ export default function InvestmentPage() {
             />
 
             {/* Decorative Vignette */}
-            <div className="fixed inset-0 pointer-events-none bg-radial-gradient from-transparent to-black/5 z-20" />
+            <div className="fixed inset-0 pointer-events-none z-20"
+                style={{
+                    background: 'radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.05) 100%)',
+                    boxShadow: 'inset 0 0 150px rgba(0,0,0,0.1)'
+                }}
+            />
         </motion.main>
     );
 }
