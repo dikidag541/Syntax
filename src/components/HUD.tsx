@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import "@fontsource/jetbrains-mono";
 
 export default function HUD() {
@@ -28,9 +29,14 @@ export default function HUD() {
                     <span>SYNTAX_DIGITAL_ARCHITECTS</span>
                     <span>SRL_N: SX-2026-X</span>
                 </div>
-                <div className="flex flex-col items-end gap-1">
+                <div className="flex flex-col items-end gap-2">
                     <span>UTC: {time}</span>
-                    <span>IDENTITY: SYNTAX_PORTFOLIO</span>
+                    <div className="flex flex-col items-end gap-1">
+                        <span>IDENTITY: SYNTAX_PORTFOLIO</span>
+                        <Link href="/investment" className="pointer-events-auto text-[#22d3ee] hover:underline decoration-1 underline-offset-4 opacity-100 transition-all duration-300">
+                            ACCESS: INVESTMENT_GUIDE_→
+                        </Link>
+                    </div>
                 </div>
             </div>
 
