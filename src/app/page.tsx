@@ -17,6 +17,7 @@ import ProjectPreview from '@/components/ProjectPreview';
 import SmoothScroll from '@/components/SmoothScroll';
 import Scene from '@/components/Scene';
 import ZeroGravityWrapper from '@/components/ZeroGravityWrapper';
+import IntroLoader from '@/components/IntroLoader';
 import useQWERTY from '@/hooks/useQWERTY';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -34,6 +35,7 @@ const projects = [
 ];
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
@@ -42,6 +44,10 @@ export default function Home() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showNav, setShowNav] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  const loaderFinished = () => {
+    setIsLoading(false);
+  };
 
   useQWERTY(() => {
     setIsZeroGravity(true);
@@ -92,100 +98,110 @@ export default function Home() {
 
   return (
     <main ref={containerRef} className="relative w-full overflow-x-hidden selection:bg-black selection:text-white">
-      <SmoothScroll />
-      <CustomCursor />
+      <IntroLoader onComplete={loaderFinished} />
 
-      {/* LAYER 0: BASE BACKGROUND COLOR */}
-      <div className="fixed inset-0 bg-[#f8f8f8] z-[-2]" />
-
-      {/* LAYER 1: BACKGROUND 3D - FIXED */}
-      <div className="fixed inset-0 z-[-1] pointer-events-none">
-        <Scene
-          activeProject={activeProjectId}
-          isFocused={isTeamHovered}
-          progress={scrollProgress}
-        />
-      </div>
-
-      {/* OVERLAY INTERACTION LAYER - Revealing sequentially */}
-      <ProjectHUD activeId={activeProjectId} />
-
-      <TeamSection
-        isVisible={showNav}
-        onHover={setIsTeamHovered}
-      />
-
-      <ProjectSidebar
-        isVisible={showNav}
-        activeId={activeProjectId}
-        onHover={setActiveProjectId}
-      />
-
-      <MagneticButton visible={!!activeProjectId && showNav} />
-
-      <ZeroGravityWrapper active={isZeroGravity}>
-        <HUD />
-
-        {/* SECTION 1: THE HERO (QWERTY ONLY) */}
-        <section
-          ref={heroRef}
-          className="relative h-screen flex flex-col items-center justify-center p-6 md:p-8 text-center"
+      {!isLoading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="z-10 w-full max-w-full overflow-hidden">
-            <h1 className="text-[18vw] md:text-[15vw] leading-[0.8] mb-8 animate-reveal tracking-tighter font-black break-words">
-              SyntaX
-            </h1>
-            <div className="flex flex-col items-center gap-6 animate-reveal opacity-0" style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}>
-              <p className="text-xl tracking-[0.4em] font-light opacity-60">
-                DIGITAL ARCHITECTS OF ETHEREAL EXPERIENCES
-              </p>
-              <div className="w-24 h-[1px] bg-foreground/20"></div>
-            </div>
-          </div>
-        </section>
+          <SmoothScroll />
+          <CustomCursor />
 
-        {/* SECTION 2: THE CATALOG (Sequential 80vh markers) */}
-        <div id="catalog-section" className="relative">
-          {/* Subtle background text to fill dead space */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] z-0 overflow-hidden select-none">
-            <span className="text-[25vw] font-black tracking-tighter uppercase whitespace-nowrap rotate-90 md:rotate-0">
-              PROJECT_ARCHIVE
-            </span>
+          {/* LAYER 0: BASE BACKGROUND COLOR */}
+          <div className="fixed inset-0 bg-[#f8f8f8] z-[-2]" />
+
+          {/* LAYER 1: BACKGROUND 3D - FIXED */}
+          <div className="fixed inset-0 z-[-1] pointer-events-none">
+            <Scene
+              activeProject={activeProjectId}
+              isFocused={isTeamHovered}
+              progress={scrollProgress}
+            />
           </div>
 
-          {projects.map((project) => (
+          {/* OVERLAY INTERACTION LAYER - Revealing sequentially */}
+          <ProjectHUD activeId={activeProjectId} />
+
+          <TeamSection
+            isVisible={showNav}
+            onHover={setIsTeamHovered}
+          />
+
+          <ProjectSidebar
+            isVisible={showNav}
+            activeId={activeProjectId}
+            onHover={setActiveProjectId}
+          />
+
+          <MagneticButton visible={!!activeProjectId && showNav} />
+
+          <ZeroGravityWrapper active={isZeroGravity}>
+            <HUD />
+
+            {/* SECTION 1: THE HERO (QWERTY ONLY) */}
             <section
-              key={project.id}
-              id={`view-section-${project.id}`}
-              className="relative h-[80vh] flex items-center justify-center overflow-hidden pointer-events-none"
+              ref={heroRef}
+              className="relative h-screen flex flex-col items-center justify-center p-6 md:p-8 text-center"
             >
-              {/* Distance for background viewfinder transitions */}
+              <div className="z-10 w-full max-w-full overflow-hidden">
+                <h1 className="text-[18vw] md:text-[15vw] leading-[0.8] mb-8 animate-reveal tracking-tighter font-black break-words">
+                  SyntaX
+                </h1>
+                <div className="flex flex-col items-center gap-6 animate-reveal opacity-0" style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}>
+                  <p className="text-xl tracking-[0.4em] font-light opacity-60">
+                    DIGITAL ARCHITECTS OF ETHEREAL EXPERIENCES
+                  </p>
+                  <div className="w-24 h-[1px] bg-foreground/20"></div>
+                </div>
+              </div>
             </section>
-          ))}
-        </div>
 
-        {/* SECTION 3: FINALE */}
-        <section className="relative h-screen flex flex-col items-center justify-center text-center px-8 border-t border-black/5 bg-transparent">
-          <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1.5 }}
-            className="text-[6vw] font-black tracking-tighter leading-none mb-12 opacity-80 uppercase"
-          >
-            LET'S BUILD THE<br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '1px rgba(0,0,0,0.3)' }}>NEXT DIMENSION</span>
-          </motion.h2>
-        </section>
+            {/* SECTION 2: THE CATALOG (Sequential 80vh markers) */}
+            <div id="catalog-section" className="relative">
+              {/* Subtle background text to fill dead space */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] z-0 overflow-hidden select-none">
+                <span className="text-[25vw] font-black tracking-tighter uppercase whitespace-nowrap rotate-90 md:rotate-0">
+                  PROJECT_ARCHIVE
+                </span>
+              </div>
 
-        {/* SECTION 4: CONTACT TERMINAL */}
-        <section className="relative min-h-screen flex items-center justify-center bg-black/[0.02]">
-          <div className="w-full max-w-5xl px-8 py-24">
-            <ContactTerminal />
-          </div>
-        </section>
-      </ZeroGravityWrapper>
+              {projects.map((project) => (
+                <section
+                  key={project.id}
+                  id={`view-section-${project.id}`}
+                  className="relative h-[80vh] flex items-center justify-center overflow-hidden pointer-events-none"
+                >
+                  {/* Distance for background viewfinder transitions */}
+                </section>
+              ))}
+            </div>
 
-      <TransitionOverlay active={isTransitioning} />
+            {/* SECTION 3: FINALE */}
+            <section className="relative h-screen flex flex-col items-center justify-center text-center px-8 border-t border-black/5 bg-transparent">
+              <motion.h2
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 1.5 }}
+                className="text-[6vw] font-black tracking-tighter leading-none mb-12 opacity-80 uppercase"
+              >
+                LET'S BUILD THE<br />
+                <span className="text-transparent" style={{ WebkitTextStroke: '1px rgba(0,0,0,0.3)' }}>NEXT DIMENSION</span>
+              </motion.h2>
+            </section>
+
+            {/* SECTION 4: CONTACT TERMINAL */}
+            <section className="relative min-h-screen flex items-center justify-center bg-black/[0.02]">
+              <div className="w-full max-w-5xl px-8 py-24">
+                <ContactTerminal />
+              </div>
+            </section>
+          </ZeroGravityWrapper>
+
+          <TransitionOverlay active={isTransitioning} />
+        </motion.div>
+      )}
     </main>
   );
 }
