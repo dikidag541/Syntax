@@ -75,3 +75,23 @@ h6 {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 25vw !important;
+    letter-spacing: -0.05em;
+  }
+
+  .fixed-sidebar {
+    display: none;
+    /* Hide complex sidebars on very small screens if necessary */
+  }
+
+  /* Increase touch targets */
+  .cursor-pointer {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}

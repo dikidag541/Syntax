@@ -237,14 +237,14 @@ export default function AntigravityObject({ activeProject, isFocused, progress }
             <mesh ref={coreRef} geometry={icosahedronGeom}>
                 <MeshTransmissionMaterial
                     backside
-                    samples={16}
-                    resolution={512}
+                    samples={typeof window !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent) ? 4 : 16}
+                    resolution={typeof window !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent) ? 256 : 512}
                     transmission={1}
                     roughness={0.15}
                     thickness={0.8}
                     ior={1.2}
                     chromaticAberration={0.06}
-                    anisotropy={0.1}
+                    anisotropy={typeof window !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent) ? 0 : 0.1}
                     distortion={0.1}
                     distortionScale={0.3}
                     temporalDistortion={0.5}

@@ -17,7 +17,7 @@ export default function HUD() {
     }, []);
 
     return (
-        <div className="fixed inset-0 pointer-events-none z-[50] font-['JetBrains_Mono',monospace] text-[10px] uppercase tracking-widest text-foreground/40 p-6 flex flex-col justify-between">
+        <div className="fixed inset-0 pointer-events-none z-[50] font-['JetBrains_Mono',monospace] text-[10px] uppercase tracking-widest text-foreground/40 p-6 hidden md:flex flex-col justify-between">
             {/* Top HUD */}
             <div className="flex justify-between items-start">
                 <div className="flex flex-col gap-1">
