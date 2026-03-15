@@ -130,7 +130,7 @@ function BlueprintGrid() {
 export default function PricelistScene({ tier = 'core', addonCount = 0 }: SceneProps) {
     return (
         <div className="absolute inset-0 z-0">
-            <Canvas dpr={[1, 2]}>
+            <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]}>
                 <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={35} />
                 <ambientLight intensity={0.7} />
                 <pointLight position={[10, 10, 10]} intensity={1.5} />

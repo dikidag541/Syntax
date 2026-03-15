@@ -4,12 +4,13 @@ import { Canvas } from '@react-three/fiber';
 import { Environment, ContactShadows, ScrollControls } from '@react-three/drei';
 import { Suspense } from 'react';
 import AntigravityObject from './AntigravityObject';
+import * as THREE from 'three';
 
 export default function Scene({ activeProject, isFocused, progress }: { activeProject: string | null, isFocused: boolean, progress: number }) {
     return (
         <div className="w-full h-full">
             <Canvas
-                shadows
+                shadows={{ type: THREE.PCFShadowMap }}
                 camera={{ position: [0, 0, 5], fov: 35 }}
                 gl={{
                     antialias: true,
