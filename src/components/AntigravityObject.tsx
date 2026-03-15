@@ -264,16 +264,19 @@ export default function AntigravityObject({ activeProject, isFocused, progress }
                             uniform sampler2D uPrevTex;
                             uniform float uProjectMix;
                             uniform float uProjectOpacity;
+                            varying vec3 vNormal;
+                            varying vec3 vViewPosition;
                             ${shader.fragmentShader}
                         `.replace(
                             '#include <dithering_fragment>',
                             `#include <dithering_fragment>
+                            vec3 normal = normalize(vNormal);
                             vec3 viewDir = normalize(vViewPosition);
-                            float fresnel = pow(1.0 - abs(dot(normalize(vNormal), normalize(-viewDir))), 3.0);
+                            float fresnel = pow(1.0 - clamp(dot(normal, viewDir), 0.0, 1.0), 3.0);
                             
                             // Lens Distortion logic for project preview
-                            vec2 uv = gl_FragCoord.xy / vec2(1000.0);
-                            uv = (uv - 0.5) * (1.0 + fresnel * 4.0) + 0.5; // Stronger distortion at high scales
+                            vec2 uv = gl_FragCoord.xy / vec2(1024.0); // Use power of 2 just in case
+                            uv = (uv - 0.5) * (1.0 + fresnel * 4.0) + 0.5;
                             
                             vec4 texActive = texture2D(uActiveTex, uv + sin(uTime * 0.1) * 0.02);
                             vec4 texPrev = texture2D(uPrevTex, uv + sin(uTime * 0.1) * 0.02);
@@ -281,7 +284,7 @@ export default function AntigravityObject({ activeProject, isFocused, progress }
 
                             // Desaturation
                             float gray = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
-                            tex.rgb = mix(tex.rgb, vec3(gray), 0.8); // 80% desaturated
+                            tex.rgb = mix(tex.rgb, vec3(gray), 0.8);
                             
                             vec3 color1 = vec3(0.13, 0.83, 0.93); // Cyan #22d3ee
                             vec3 color2 = vec3(0.5, 1.0, 0.8);
@@ -290,7 +293,7 @@ export default function AntigravityObject({ activeProject, isFocused, progress }
                             irid = mix(irid, color3, cos(fresnel * 7.0 - uTime * 0.5) * 0.5 + 0.5);
                             
                             gl_FragColor.rgb += irid * fresnel * 0.15 * (1.0 + uVelocity * 2.0);
-                            gl_FragColor.rgb = mix(gl_FragColor.rgb, tex.rgb, uProjectOpacity * 0.7 * (1 - fresnel));
+                            gl_FragColor.rgb = mix(gl_FragColor.rgb, tex.rgb, uProjectOpacity * 0.7 * (1.0 - fresnel));
                             `
                         );
 
