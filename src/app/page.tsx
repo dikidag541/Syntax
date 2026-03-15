@@ -57,6 +57,7 @@ export default function Home() {
     if (isLoading) return;
 
     if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
       gsap.registerPlugin(ScrollTrigger);
     }
     const ctx = gsap.context(() => {
